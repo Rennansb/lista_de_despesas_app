@@ -12,13 +12,13 @@ class ExpansesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return  const MaterialApp(
+    return   MaterialApp(
       home:MyHomePage()
     );
   }
 }
 class MyHomePage extends StatelessWidget {
-   const MyHomePage({super.key});
+    MyHomePage({super.key});
 
 
 
@@ -27,6 +27,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title:const Text('Despesas Pessoais'),
+      actions: [
+        IconButton(onPressed: (){}, icon: Icon(Icons.add))
+      ],
        ),
 
        body: SingleChildScrollView(
@@ -47,6 +50,10 @@ class MyHomePage extends StatelessWidget {
           ],
          ),
        ),
+       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {  },),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
