@@ -15,7 +15,21 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return  SizedBox(
       height: 300,
-      child: ListView.builder(
+      child:transactions.isEmpty ? Column(
+       children:  [
+       const SizedBox(height: 10,),
+        const Text('Usuario sem nenhuma transação cadastrada',
+         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+       const  SizedBox(height: 20,),
+        SizedBox(
+          width: 100,
+          child: Image.asset('assets/images/waiting.png',
+          fit: BoxFit.cover,),
+        ),
+       ],
+
+      ): ListView.builder(
         itemCount: transactions.length,
         itemBuilder: (cxt, index){
           final tr = transactions[index];
@@ -24,7 +38,7 @@ return Card(
                   child: Row(
                     children: [
                       Container(
-                        margin:  EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           horizontal: 15,
                           vertical: 10
                         ),
@@ -34,7 +48,7 @@ return Card(
                             width: 2
                           )
                         ),
-                        padding: EdgeInsets.all(10),
+                        padding:const EdgeInsets.all(10),
                         child: Text("R\$ ${tr.value!.toStringAsFixed(2)}", style:  TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -44,14 +58,14 @@ return Card(
                       Column(
                         
                         children: [
-                        Text(tr.title.toString(), style:  TextStyle(
+                        Text(tr.title.toString(), style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black
                         ),),
                         Text(
                         DateFormat('dd/MM/yyyy HH:mm:ss').format(tr.date!),
-                          style:  TextStyle(
+                          style: const TextStyle(
                          
                          
                           color: Colors.grey
