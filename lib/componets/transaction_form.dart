@@ -11,6 +11,16 @@ final void Function(String?, double?) onSubmit;
 
    TransactionForm(this.onSubmit, {super.key});
 
+  _submitForm(){
+final title = titleController.text;
+                             final value = double.tryParse(valueController.text) ?? 0.0;
+                    if(title.isEmpty || value <=0){
+                      return;
+                    }        
+                            
+                            onSubmit(title,value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Card(
@@ -21,13 +31,15 @@ final void Function(String?, double?) onSubmit;
                     children: [
                        TextField(
                         controller: titleController,
+                        onSubmitted: (value)=> _submitForm(),
                         decoration:const InputDecoration(
                           labelText: 'Titulo',
                         ),
                       ),
                         TextField( 
-                          keyboardType:TextInputType.number,
+                          keyboardType:const TextInputType.numberWithOptions(decimal: true),
                          controller: valueController,
+                         onSubmitted: (value)=> _submitForm(),
                         decoration:const InputDecoration(
                           labelText: 'Valor (R\$)',
                         ),
@@ -45,9 +57,7 @@ final void Function(String?, double?) onSubmit;
                               
                               backgroundColor: Colors.white),
                             onPressed: (){
-                             final title = titleController.text;
-                             final value = double.tryParse(valueController.text) ?? 0.0;
-                            onSubmit(title,value);
+                             _submitForm();
                             }, child:const  Text('Nova Transação',style: TextStyle(color: Colors.purple),),
                           ),
                         ],
