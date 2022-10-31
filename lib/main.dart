@@ -59,24 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Conta antiga',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 33)),
-    ),
-    Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Conta de Luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ), 
+    
   ];
 
   List<Transaction> get _recentTransactions {
@@ -85,18 +68,26 @@ return tr.date!.isAfter(DateTime.now().subtract(const Duration(days: 7)));
     }).toList();
   }
 
-   _addTransaction(String? title, double? value){
+   _addTransaction(String? title, double? value, DateTime? date){
     final newTansaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
       );
       setState(() {
         _transactions.add(newTansaction);
       });
       Navigator.of(context).pop();
   }
+
+  _removeTransaction(String? id){
+  setState((){
+    _transactions.removeWhere((tr) => tr.id == id
+    );
+  });
+
+}
 
 _openTransactionFormModal(BuildContext context){
 showModalBottomSheet(context: context, 
@@ -123,7 +114,7 @@ builder: (ctx){
             
              
                Chart(_recentTransactions),
-                 TransactionList(transactions: _transactions),
+                 TransactionList(transactions: _transactions,onRemove: _removeTransaction),
                
        
               

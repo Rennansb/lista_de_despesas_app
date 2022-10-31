@@ -8,13 +8,14 @@ class TransactionList extends StatelessWidget {
 
 
 
-  const TransactionList({super.key, required this.transactions});
+  const TransactionList({super.key, required this.transactions, required this.onRemove});
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
   
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-      height: 300,
+      height: 550,
       child:transactions.isEmpty ? Column(
        children:  [
        const SizedBox(height: 10,),
@@ -34,45 +35,36 @@ class TransactionList extends StatelessWidget {
         itemBuilder: (cxt, index){
           final tr = transactions[index];
 return Card(
-                  elevation: 5,
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: 2
-                          )
-                        ),
-                        padding:const EdgeInsets.all(10),
-                        child: Text("R\$ ${tr.value!.toStringAsFixed(2)}", style:  TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                           color: Theme.of(context).colorScheme.primary,
-                        ),),
-                      ),
-                      Column(
-                        
-                        children: [
-                        Text(tr.title.toString(), style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                        ),),
-                        Text(
-                        DateFormat('dd/MM/yyyy HH:mm:ss').format(tr.date!),
-                          style: const TextStyle(
-                         
-                         
-                          color: Colors.grey
-                        ),),
-                      ],)
-                    ],
-                  ));
+  elevation: 5,
+  margin: EdgeInsets.symmetric(
+    vertical: 8,
+    horizontal: 5
+  ),
+  child:   ListTile(
+    leading:CircleAvatar(
+      backgroundColor:Colors.purple,
+      radius: 30,
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: FittedBox(
+          
+          child: Text('R\$ ${tr.value}')),
+      )
+    ),
+    title: Text(
+      tr.title.toString(),
+      style: TextStyle(color: Theme.of(context).colorScheme.primary,),
+  
+    ),
+    subtitle: Text(
+      DateFormat('d MMM y').format(tr.date as DateTime)
+    ),
+    trailing: IconButton(
+      onPressed: ()=> onRemove(tr.id as String),
+      color: Colors.redAccent,
+      icon: Icon(Icons.delete),),
+  ),
+);
         },
                  
                 ),
